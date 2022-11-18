@@ -114,26 +114,28 @@ app.put('/api/cart/:id/:quantity', (req, res) => {
   res.send(currentCart[index]);
 });
 
-app.put('/api/cart/minus/', (req, res) => {
-  let id = req.body.id; //or it could be the id from the url ig
-  let index = currentCart.map(item => {
-      return item.id;
-    })
-    .indexOf(id);
-  if (index === -1) {
-    res.status(400)
-      .send("Sorry, that item doesn't exist");
-    return;
-  }
-  let q = currentCart[index].quantity;
-  if (q === 1) {
-    currentCart.splice(index, 1);
-  }
-  else {
-    currentCart[index].quantity = q-1; //why isn't it printing out the new number?!?!
-  }
-  console.log("new quantity: ", currentCart[index].quantity, " old quantity: ", q);
-});
+// app.put('/api/cart/minus/:id', (req, res) => {
+//   let id = req.params.id; //or it could be the id from the url ig
+//   console.log(currentCart);
+//   console.log("hello world");
+//   let index = currentCart.map(item => {
+//       return item.id;
+//     })
+//     .indexOf(id);
+//   if (index === -1) {
+//     res.status(400)
+//       .send("Sorry, that item doesn't exist");
+//     return;
+//   }
+//   let q = currentCart[index].quantity;
+//   if (q === 1) {
+//     currentCart.splice(index, 1);
+//   }
+//   else {
+//     currentCart[index].quantity = q-1; //why isn't it printing out the new number?!?!
+//   }
+//   console.log("new quantity: ", currentCart[index].quantity, " old quantity: ", q);
+// });
 
 // DELETE /api/cart/:id
 app.delete('/api/cart/:id', (req, res) => {

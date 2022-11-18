@@ -23,6 +23,8 @@ function App() {
     try {      
       const response = await axios.get("/api/cart");
       setCart(response.data);
+      console.log("this is cart:",cart);
+      console.log("products in getcart", products);
     } catch(error) {
       setError("error retrieving cart: " + error);
     }
@@ -39,7 +41,8 @@ function App() {
   
   const addCart = async(product) => {
     try {
-      await axios.post("/api/cart/" + product.id, product);
+      const response = await axios.post("/api/cart/" + product.id, product);
+      console.log("response data", response.data);
     } catch(error) {
       setError("error adding to cart" + error);
     }
@@ -59,6 +62,7 @@ function App() {
   }
 
   const AddToCart = async(product) => {
+    console.log("add to cart", product);
     await addCart(product);
     fetchCart();
   }
@@ -70,7 +74,9 @@ function App() {
   
   const decrementQuantity = async(product) => { //put('/api/cart/:id/:quantity',
     try {
-      await axios.put("/api/cart/minus/", product);
+      console.log("product id: ", product.id);
+      let quantity = product.quantity-1;
+      await axios.put("/api/cart/" + product.id + "/" + quantity); //fixme
       fetchCart();
     } catch(error) {
       setError("error decrementing from cart " + error);
