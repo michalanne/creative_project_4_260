@@ -14,9 +14,9 @@ app.use(bodyParser.json());
 
 let items = [];
 let id = 0;
-let currentCart = [];
+let currentwishlist = [];
 
-app.post('/api/products', (req, res) => {
+app.post('/api/gifts', (req, res) => {
   let item = {
     name: req.body.name,
     price: req.body.price,
@@ -26,11 +26,11 @@ app.post('/api/products', (req, res) => {
   res.send(item);
 });
 
-app.get('/api/products', (req, res) => {
+app.get('/api/gifts', (req, res) => {
   res.send(items);
 });
 
-app.put('/api/products/:id', (req, res) => {
+app.put('/api/gifts/:id', (req, res) => {
   let id = parseInt(req.params.id);
   let itemsMap = items.map(item => {
     return item.id;
@@ -47,7 +47,7 @@ app.put('/api/products/:id', (req, res) => {
   res.send(item);
 });
 
-app.delete('/api/products/:id', (req, res) => {
+app.delete('/api/gifts/:id', (req, res) => {
   let id = req.params.id;
   let removeIndex = items.map(item => {
       return item.id;
@@ -62,18 +62,15 @@ app.delete('/api/products/:id', (req, res) => {
   res.sendStatus(200);
 });
 
-
-// hwList
-
 //GET /api/hwList
-app.get('/api/cart', (req, res) => {
-  res.send(currentCart)
+app.get('/api/wishlist', (req, res) => {
+  res.send(currentwishlist)
 });
 
-// POST /api/cart/:id
-app.post('/api/cart/:id', (req, res) => {
+// POST /api/wishlist/:id
+app.post('/api/wishlist/:id', (req, res) => {
   let sentId = req.params.id;
-    let index = currentCart.map(item => {
+    let index = currentwishlist.map(item => {
       return item.id;
     })
     .indexOf(sentId);
@@ -83,20 +80,20 @@ app.post('/api/cart/:id', (req, res) => {
         quantity: 1,
         name: req.body.name
       }
-      currentCart.push(item);
+      currentwishlist.push(item);
       res.send(item);
     }
     else {
-      currentCart[index].quantity += 1;
-      res.send(currentCart[index]);
+      currentwishlist[index].quantity += 1;
+      res.send(currentwishlist[index]);
     }
 });
 
-// PUT /api/cart/:id/:quantity
-app.put('/api/cart/:id/:quantity', (req, res) => {
+// PUT /api/wishlist/:id/:quantity
+app.put('/api/wishlist/:id/:quantity', (req, res) => {
   let id = req.params.id;
   let quantity = parseInt(req.params.quantity);
-  let index = currentCart.map(item => {
+  let index = currentwishlist.map(item => {
       return item.id;
     })
     .indexOf(id);
@@ -106,41 +103,18 @@ app.put('/api/cart/:id/:quantity', (req, res) => {
     return;
   }
   if (quantity === 0) {
-      currentCart.splice(index, 1);
+      currentwishlist.splice(index, 1);
   }
   else {
-    currentCart[index].quantity = quantity;
+    currentwishlist[index].quantity = quantity;
   }
-  res.send(currentCart[index]);
+  res.send(currentwishlist[index]);
 });
 
-// app.put('/api/cart/minus/:id', (req, res) => {
-//   let id = req.params.id; //or it could be the id from the url ig
-//   console.log(currentCart);
-//   console.log("hello world");
-//   let index = currentCart.map(item => {
-//       return item.id;
-//     })
-//     .indexOf(id);
-//   if (index === -1) {
-//     res.status(400)
-//       .send("Sorry, that item doesn't exist");
-//     return;
-//   }
-//   let q = currentCart[index].quantity;
-//   if (q === 1) {
-//     currentCart.splice(index, 1);
-//   }
-//   else {
-//     currentCart[index].quantity = q-1; //why isn't it printing out the new number?!?!
-//   }
-//   console.log("new quantity: ", currentCart[index].quantity, " old quantity: ", q);
-// });
-
-// DELETE /api/cart/:id
-app.delete('/api/cart/:id', (req, res) => {
+// DELETE /api/wishlist/:id
+app.delete('/api/wishlist/:id', (req, res) => {
     let id = req.params.id;
-  let removeIndex = currentCart.map(item => {
+  let removeIndex = currentwishlist.map(item => {
       return item.id;
     })
     .indexOf(id);
@@ -149,7 +123,7 @@ app.delete('/api/cart/:id', (req, res) => {
       .send("Sorry, that item doesn't exist");
     return;
   }
-  currentCart.splice(removeIndex, 1);
+  currentwishlist.splice(removeIndex, 1);
   res.sendStatus(200);
 });
 
