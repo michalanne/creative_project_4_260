@@ -4,91 +4,91 @@ import './App.css';
 
 function App() {
   // setup state
-  const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [gifts, setgifts] = useState([]);
+  const [wishlist, setwishlist] = useState([]);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
 
-  const fetchProducts = async() => {
+  const fetchgifts = async() => {
     try {      
-      const response = await axios.get("/api/products");
-      setProducts(response.data);
+      const response = await axios.get("/api/gifts");
+      setgifts(response.data);
     } catch(error) {
-      setError("error retrieving products: " + error);
+      setError("error retrieving gifts: " + error);
     }
   }
   
-  const fetchCart = async() => {
+  const fetchwishlist = async() => {
     try {      
-      const response = await axios.get("/api/cart");
-      setCart(response.data);
-      console.log("this is cart:",cart);
-      console.log("products in getcart", products);
+      const response = await axios.get("/api/wishlist");
+      setwishlist(response.data);
+      console.log("this is wishlist:",wishlist);
+      console.log("gifts in getwishlist", gifts);
     } catch(error) {
-      setError("error retrieving cart: " + error);
+      setError("error retrieving wishlist: " + error);
     }
   }
   
   
-  const createProduct = async() => {
+  const creategift = async() => {
     try {
-      await axios.post("/api/products", {name: name, price: price});
+      await axios.post("/api/gifts", {name: name, price: price});
     } catch(error) {
-      setError("error adding a product: " + error);
+      setError("error adding a gift: " + error);
     }
   }
   
-  const addCart = async(product) => {
+  const addwishlist = async(gift) => {
     try {
-      const response = await axios.post("/api/cart/" + product.id, product);
+      const response = await axios.post("/api/wishlist/" + gift.id, gift);
       console.log("response data", response.data);
     } catch(error) {
-      setError("error adding to cart" + error);
+      setError("error adding to wishlist" + error);
     }
   }
 
   // fetch ticket data
   useEffect(() => {
-    fetchProducts();
+    fetchgifts();
   },[]);
 
-  const addProduct = async(e) => {
+  const addgift = async(e) => {
     e.preventDefault();
-    await createProduct();
-    fetchProducts();
+    await creategift();
+    fetchgifts();
     setName("");
     setPrice("");
   }
 
-  const AddToCart = async(product) => {
-    console.log("add to cart", product);
-    await addCart(product);
-    fetchCart();
+  const AddTowishlist = async(gift) => {
+    console.log("add to wishlist", gift);
+    await addwishlist(gift);
+    fetchwishlist();
   }
   
-  const incrementQuantity = async(product) => {
-    await addCart(product);
-    fetchCart();
+  const incrementQuantity = async(gift) => {
+    await addwishlist(gift);
+    fetchwishlist();
   }
   
-  const decrementQuantity = async(product) => { //put('/api/cart/:id/:quantity',
+  const decrementQuantity = async(gift) => { //put('/api/wishlist/:id/:quantity',
     try {
-      console.log("product id: ", product.id);
-      let quantity = product.quantity-1;
-      await axios.put("/api/cart/" + product.id + "/" + quantity); //fixme
-      fetchCart();
+      console.log("gift id: ", gift.id);
+      let quantity = gift.quantity-1;
+      await axios.put("/api/wishlist/" + gift.id + "/" + quantity); //fixme
+      fetchwishlist();
     } catch(error) {
-      setError("error decrementing from cart " + error);
+      setError("error decrementing from wishlist " + error);
     }
   }
   
-  const removeFromCart = async(product) => { //delete('/api/cart/:id'
+  const removeFromwishlist = async(gift) => { //delete('/api/wishlist/:id'
     try {
-      await axios.delete("/api/cart/" + product.id);
-      fetchCart();
+      await axios.delete("/api/wishlist/" + gift.id);
+      fetchwishlist();
     } catch(error) {
-      setError("error removing from cart" + error);
+      setError("error removing from wishlist" + error);
     }
   }
 
@@ -96,20 +96,20 @@ function App() {
   return (
     <div className="App">
       {error}
-      <h1>Cart</h1>
-      {cart.map( item => (
+      <h1>wishlist</h1>
+      {wishlist.map( item => (
         <div key={item.id}>
           {item.name}, {item.quantity}
           <button onClick={e => decrementQuantity(item)}>-</button>
           <button onClick={e => incrementQuantity(item)}>+</button>
-          <button onClick={e => removeFromCart(item)}>Remove from Cart</button>
+          <button onClick={e => removeFromwishlist(item)}>Remove from wishlist</button>
         </div>
       ))}
-      <h1>Products</h1>
-      {products.map( product => (
-        <div key={product.id} className="product">
-          {product.name}, {product.price}
-          <button onClick={e => AddToCart(product)}>Add to Cart</button>
+      <h1>gifts</h1>
+      {gifts.map( gift => (
+        <div key={gift.id} className="gift">
+          {gift.name}, {gift.price}
+          <button onClick={e => AddTowishlist(gift)}>Add to wishlist</button>
         </div>
       ))}     
     </div>
