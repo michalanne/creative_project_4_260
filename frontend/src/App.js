@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   // setup state
   const [gifts, setgifts] = useState([]);
-  const [wishlist, setwishlist] = useState([]);
+  const [Wishlist, setWishlist] = useState([]);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -13,20 +13,20 @@ function App() {
   const fetchgifts = async() => {
     try {      
       const response = await axios.get("/api/gifts");
-      setgifts(response.data);
+      setgifts(response.data.gifts);  //possibly remove gifts at end
     } catch(error) {
       setError("error retrieving gifts: " + error);
     }
   }
   
-  const fetchwishlist = async() => {
+  const fetchWishlist = async() => {
     try {      
-      const response = await axios.get("/api/wishlist");
-      setwishlist(response.data);
-      console.log("this is wishlist:",wishlist);
-      console.log("gifts in getwishlist", gifts);
+      const response = await axios.get("/api/Wishlist");
+      setWishlist(response.data);
+      console.log("this is Wishlist:",Wishlist);
+      console.log("gifts in getWishlist", gifts);
     } catch(error) {
-      setError("error retrieving wishlist: " + error);
+      setError("error retrieving Wishlist: " + error);
     }
   }
   
@@ -39,12 +39,12 @@ function App() {
     }
   }
   
-  const addwishlist = async(gift) => {
+  const addWishlist = async(gift) => {
     try {
-      const response = await axios.post("/api/wishlist/" + gift.id, gift);
+      const response = await axios.post("/api/Wishlist/" + gift.id, gift);
       console.log("response data", response.data);
     } catch(error) {
-      setError("error adding to wishlist" + error);
+      setError("error adding to Wishlist" + error);
     }
   }
 
@@ -61,34 +61,34 @@ function App() {
     setPrice("");
   }
 
-  const AddTowishlist = async(gift) => {
-    console.log("add to wishlist", gift);
-    await addwishlist(gift);
-    fetchwishlist();
+  const AddToWishlist = async(gift) => {
+    console.log("add to Wishlist", gift);
+    await addWishlist(gift);
+    fetchWishlist();
   }
   
   const incrementQuantity = async(gift) => {
-    await addwishlist(gift);
-    fetchwishlist();
+    await addWishlist(gift);
+    fetchWishlist();
   }
   
-  const decrementQuantity = async(gift) => { //put('/api/wishlist/:id/:quantity',
+  const decrementQuantity = async(gift) => { //put('/api/Wishlist/:id/:quantity',
     try {
       console.log("gift id: ", gift.id);
       let quantity = gift.quantity-1;
-      await axios.put("/api/wishlist/" + gift.id + "/" + quantity); //fixme
-      fetchwishlist();
+      await axios.put("/api/Wishlist/" + gift.id + "/" + quantity); //fixme
+      fetchWishlist();
     } catch(error) {
-      setError("error decrementing from wishlist " + error);
+      setError("error decrementing from Wishlist " + error);
     }
   }
   
-  const removeFromwishlist = async(gift) => { //delete('/api/wishlist/:id'
+  const removeFromWishlist = async(gift) => { //delete('/api/Wishlist/:id'
     try {
-      await axios.delete("/api/wishlist/" + gift.id);
-      fetchwishlist();
+      await axios.delete("/api/Wishlist/" + gift.id);
+      fetchWishlist();
     } catch(error) {
-      setError("error removing from wishlist" + error);
+      setError("error removing from Wishlist" + error);
     }
   }
 
@@ -96,20 +96,24 @@ function App() {
   return (
     <div className="App">
       {error}
-      <h1>wishlist</h1>
-      {wishlist.map( item => (
+      <div class  ="wishlistHeader">
+        <h1>Wishlist</h1>
+      </div>
+      {Wishlist.map( item => (
         <div key={item.id}>
           {item.name}, {item.quantity}
           <button onClick={e => decrementQuantity(item)}>-</button>
           <button onClick={e => incrementQuantity(item)}>+</button>
-          <button onClick={e => removeFromwishlist(item)}>Remove from wishlist</button>
+          <button onClick={e => removeFromWishlist(item)}>Remove from Wishlist</button>
         </div>
       ))}
-      <h1>gifts</h1>
+      <div class  ="giftListHeader">
+        <h1>Gift List</h1>
+      </div>
       {gifts.map( gift => (
         <div key={gift.id} className="gift">
           {gift.name}, {gift.price}
-          <button onClick={e => AddTowishlist(gift)}>Add to wishlist</button>
+          <button onClick={e => AddToWishlist(gift)}>Add to Wishlist</button>
         </div>
       ))}     
     </div>
