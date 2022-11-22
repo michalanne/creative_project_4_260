@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
+  
   // setup state
   const [gifts, setgifts] = useState([]);
   const [Wishlist, setWishlist] = useState([]);
@@ -95,11 +96,20 @@ function App() {
   // render results
   return (
     <div className="App">
+      <head>
+        <title>Christmas Wishlist</title>
+      </head>
       {error}
+      <body>
+      <div className="wordback">
+      
+      <h1>The Ultimte Christmas Wish List Creator</h1>
+
       <div class  ="wishlistHeader">
-        <h1>Wishlist</h1>
+        <h2>Wishlist</h2>
+        <h3>The things I would like most for Christmas are....</h3>
       </div>
-      {Wishlist.map( item => (
+      {Array.from(Wishlist).map( item => (
         <div key={item.id}>
           {item.name}, {item.quantity}
           <button onClick={e => decrementQuantity(item)}>-</button>
@@ -108,14 +118,22 @@ function App() {
         </div>
       ))}
       <div class  ="giftListHeader">
-        <h1>Gift List</h1>
+        <h2>Gift List</h2>
+        <h3>All the options I have for gifts are.....</h3>
       </div>
       {gifts.map( gift => (
         <div key={gift.id} className="gift">
           {gift.name}, {gift.price}
           <button onClick={e => AddToWishlist(gift)}>Add to Wishlist</button>
         </div>
-      ))}     
+      ))}    
+      </div>
+      </body>
+          <footer class="footer">
+        <p class="footer-info">Michal Stone and Brayden Christensen</p>
+        <p class="footer-info">CS 260</p>
+        <p class="footer-info-bottom-right">Merry Christmas!</p>
+    </footer>
     </div>
   );
 }

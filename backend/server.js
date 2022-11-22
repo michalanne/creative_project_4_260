@@ -175,10 +175,12 @@ app.get('/api/Wishlist', async (req, res) => {
 
 app.post('/api/Wishlist/:id', async (req, res) => {
     const wishlist = new Wishlist({
-    gift: req.body.gift   //takes in a gift item into the aray instead of a name and price?
+    name: req.body.name,
+    price: req.body.price //takes in a gift item into the aray instead of a name and price?
   });
   try {
-    await wishlist.save();
+    Wishlist.currWishlist.push(wishlist);
+    await Wishlist.save();
     res.send({wishlist:wishlist});
   } catch (error) {
     console.log(error);
