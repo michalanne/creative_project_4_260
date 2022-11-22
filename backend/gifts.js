@@ -1,5 +1,10 @@
 const gifts = [
   {
+    name: "Hand Carved Nativity Set",
+    price: "$173",
+    // image: "cheddar-cheese.jpg",
+  },
+  {
     name: "Iphone 14",
     price: "$900",
     // image: "egg-salad.jpg",
@@ -63,11 +68,6 @@ const gifts = [
     name: "Chess Set",
     price: "$32",
     // image: "feta-cheese.jpg",
-  },
-  {
-    name: "Hand Carved Nativity Set",
-    price: "$173",
-    // image: "cheddar-cheese.jpg",
   },
   {
     name: "Hot Wheels",
