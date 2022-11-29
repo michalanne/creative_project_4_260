@@ -24,15 +24,12 @@ const giftSchema = new mongoose.Schema({
   quantity: Number,
 });
 
-
 giftSchema.virtual('id')
   .get(function() {
     return this._id.toHexString();
   });
   
-  
 const Gift = mongoose.model('Gift', giftSchema);
-
 
 app.post('/api/gifts', async (req, res) => {
     const gift = new Gift({

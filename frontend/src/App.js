@@ -14,7 +14,7 @@ function App() {
   
 
   const fetchgifts = async() => {
-    try {      
+    try { 
       const response = await axios.get("/api/gifts");
       setGifts(response.data.gifts);
     } catch(error) {
