@@ -1,3 +1,11 @@
+button {
+  background-color: white;
+  border-color: red;
+  color: red;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
 .App {
   text-align: center;
   background-image: url("images/snow_forest.jpeg");

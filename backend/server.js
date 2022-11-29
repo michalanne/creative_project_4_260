@@ -88,7 +88,6 @@ app.put('/api/Wishlist/:id', async (req, res) => {
     let gift = await Gift.findOne({
     _id: req.params.id
   });
-  console.log("this is gift", gift);
   gift.inwishlist = true;
   await gift.save();
   res.send(gift);
@@ -99,29 +98,11 @@ app.put('/api/Wishlist/:id', async (req, res) => {
 });
 
 
-// app.post('/api/Wishlist/:id', async (req, res) => {
-//   console.log("in wishlist post--> making object");
-//     const wishlistPost = Gift.findOne( {
-//       _id: req.params.id
-//   });
-//   console.log("in wishlist post");
-//   try {
-//     await wishlistPost.save();
-//     console.log("wishlist", wishlistPost);
-//     res.send({wishlistPost: wishlistPost});
-//   } catch (error) {
-//     console.log(error);
-//     res.sendStatus(500);
-//   }
-// });
-
-
 app.delete('/api/Wishlist/:id', async (req, res) => {
   try {
     let gift = await Gift.findOne({
     _id: req.params.id
   });
-  console.log("this is gift", gift);
   gift.inwishlist = false;
   await gift.save();
     res.sendStatus(200);

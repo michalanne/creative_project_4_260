@@ -11,11 +11,12 @@ function App() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState(0);
+  
 
   const fetchgifts = async() => {
     try {      
       const response = await axios.get("/api/gifts");
-      setGifts(response.data.gifts);  //possibly remove gifts at end
+      setGifts(response.data.gifts);
     } catch(error) {
       setError("error retrieving gifts: " + error);
     }
@@ -25,8 +26,6 @@ function App() {
     try {      
       const response = await axios.get("/api/Wishlist");
       setWishlist(response.data.wishlistGet);
-      console.log("this is Wishlist:", Wishlist);
-      // console.log("gifts in getWishlist", gifts);
     } catch(error) {
       setError("error retrieving Wishlist: " + error);
     }
@@ -43,9 +42,6 @@ function App() {
   const addWishlist = async(gift) => {
     try {
       const response = await axios.put("/api/Wishlist/" + gift._id, gift);
-      // const response = await axios.post("/api/Wishlist/" + gift._id, gift);
-      // setWishlist(response.data.wishlistGet);//fixme
-      console.log("***response data***", response.data);
     } catch(error) {
       setError("error adding to Wishlist" + error);
     }
@@ -66,8 +62,6 @@ function App() {
   }
 
   const AddToWishlist = async(gift) => {
-    console.log("add to Wishlist", gift);
-    console.log("id-----", gift._id);
     await addWishlist(gift);
     // setQuantity(gift.quantity + 1);
     fetchWishlist();
@@ -76,14 +70,12 @@ function App() {
   const incrementQuantity = async(gift) => {
     await addWishlist(gift);
     setQuantity(gift.quantity+1);
-    console.log("quantity: ", gift.quantity);
     // await gift.save();
     fetchWishlist();
   }
   
   const decrementQuantity = async(gift) => { //put('/api/Wishlist/:id/:quantity',
     try {
-      console.log("gift id: ", gift._id);
       let quantity = gift.quantity-1;
       await axios.put("/api/Wishlist/" + gift._id + "/" + quantity); //fixme
       fetchWishlist();
@@ -118,10 +110,8 @@ function App() {
         <h3>The things I would like most for Christmas are....</h3>
       </div>
       {Array.from(Wishlist).map( gift => (
-        <div key={gift._id}>
+        <div key={gift._id} classname="gift">
           {gift.name}, {gift.quantity}
-          <button onClick={e => decrementQuantity(gift)}>-</button>
-          <button onClick={e => incrementQuantity(gift)}>+</button>
           <button onClick={e => removeFromWishlist(gift)}>Remove from Wishlist</button>
         </div>
       ))}
