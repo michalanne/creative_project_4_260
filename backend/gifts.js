@@ -4,11 +4,11 @@ const gifts = [
     price: "$173",
     // image: "cheddar-cheese.jpg",
   },
-  // {
-  //   name: "Iphone 14",
-  //   price: "$900",
-  //   // image: "egg-salad.jpg",
-  // },
+  {
+    name: "Iphone 14",
+    price: "$900",
+    // image: "egg-salad.jpg",
+  },
   {
     name: "Diamond Watch",
     price: "$3,000",

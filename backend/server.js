@@ -118,9 +118,12 @@ app.put('/api/Wishlist/:id', async (req, res) => {
 
 app.delete('/api/Wishlist/:id', async (req, res) => {
   try {
-    await Gift.deleteOne({
-      _id: req.params.id
-    });
+    let gift = await Gift.findOne({
+    _id: req.params.id
+  });
+  console.log("this is gift", gift);
+  gift.inwishlist = false;
+  await gift.save();
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
