@@ -128,7 +128,7 @@ function App() {
       </div>
       </body>
           <footer className="footer">
-        <p className="footer-info">Michal Stone and Bryce Wall</p>
+        <p className="footer-info"><a href="https://github.com/michalanne/creative_project_4_260.git">Michal Stone and Bryce Wall</a></p>
         <p className="footer-info">CS 260</p>
         <p className="footer-info-bottom-right">Merry Christmas!</p>
     </footer>

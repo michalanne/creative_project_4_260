@@ -70,6 +70,11 @@ h1, h2 {
     color: #FF0000;
 }
 
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
 .footer {
   text-align: center;
   margin-top: 50px;
