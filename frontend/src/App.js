@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   
   // setup state
-  const [gifts, setgifts] = useState([]);
+  const [gifts, setGifts] = useState([]);
   const [Wishlist, setWishlist] = useState([]);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
@@ -14,7 +14,7 @@ function App() {
   const fetchgifts = async() => {
     try {      
       const response = await axios.get("/api/gifts");
-      setgifts(response.data.gifts);  //possibly remove gifts at end
+      setGifts(response.data.gifts);  //possibly remove gifts at end
     } catch(error) {
       setError("error retrieving gifts: " + error);
     }
@@ -23,14 +23,13 @@ function App() {
   const fetchWishlist = async() => {
     try {      
       const response = await axios.get("/api/Wishlist");
-      setWishlist(response.data);
-      console.log("this is Wishlist:",Wishlist);
-      console.log("gifts in getWishlist", gifts);
+      setWishlist(response.data.wishlistGet);
+      console.log("this is Wishlist:", Wishlist);
+      // console.log("gifts in getWishlist", gifts);
     } catch(error) {
       setError("error retrieving Wishlist: " + error);
     }
   }
-  
   
   const creategift = async() => {
     try {
@@ -42,8 +41,9 @@ function App() {
   
   const addWishlist = async(gift) => {
     try {
-      const response = await axios.post("/api/Wishlist/" + gift.id, gift);
-      console.log("response data", response.data);
+      const response = await axios.put("/api/Wishlist/" + gift._id, gift);
+      // const response = await axios.post("/api/Wishlist/" + gift._id, gift);
+      console.log("***response data***", response.data);
     } catch(error) {
       setError("error adding to Wishlist" + error);
     }
@@ -64,6 +64,7 @@ function App() {
 
   const AddToWishlist = async(gift) => {
     console.log("add to Wishlist", gift);
+    console.log("id-----", gift._id);
     await addWishlist(gift);
     fetchWishlist();
   }
@@ -103,9 +104,9 @@ function App() {
       <body>
       <div className="wordback">
       
-      <h1>The Ultimte Christmas Wish List Creator</h1>
+      <h1>The Ultimate Christmas Wish List Creator</h1>
 
-      <div class  ="wishlistHeader">
+      <div className  ="wishlistHeader">
         <h2>Wishlist</h2>
         <h3>The things I would like most for Christmas are....</h3>
       </div>
@@ -117,7 +118,7 @@ function App() {
           <button onClick={e => removeFromWishlist(item)}>Remove from Wishlist</button>
         </div>
       ))}
-      <div class  ="giftListHeader">
+      <div className  ="giftListHeader">
         <h2>Gift List</h2>
         <h3>All the options I have for gifts are.....</h3>
       </div>
@@ -129,10 +130,10 @@ function App() {
       ))}    
       </div>
       </body>
-          <footer class="footer">
-        <p class="footer-info">Michal Stone and Brayden Christensen</p>
-        <p class="footer-info">CS 260</p>
-        <p class="footer-info-bottom-right">Merry Christmas!</p>
+          <footer className="footer">
+        <p className="footer-info">Michal Stone and Bryce Wall</p>
+        <p className="footer-info">CS 260</p>
+        <p className="footer-info-bottom-right">Merry Christmas!</p>
     </footer>
     </div>
   );
